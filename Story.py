@@ -12,17 +12,13 @@ class Story:
         self.actionArray = []
         self.event = {}
 
-        # Validate input
-        actions = storyDictionary.get("actions")
-        if not isinstance(actions, list):
-            raise ActionError("'actions' must be a list inside the story JSON.")
-        
+        actions = storyDictionary.get("actions")       
         for action in actions:
             try:
                 # get parameters
                 type = action.get("type")
                 name = action.get("name")
-                options = action.get("options")
+                options = action.get("options",{})
 
                 # select the appropriate action class
                 actionClass = getActionTypeClass(type)

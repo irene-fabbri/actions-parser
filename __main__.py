@@ -2,6 +2,7 @@ import sys
 import json
 from . import Story
 from .actions.exceptions import ActionError
+from .utils import validateStorySchema
 
 if __name__ == "__main__":
     # check arguments
@@ -13,6 +14,9 @@ if __name__ == "__main__":
         # read story from file
         with open(sys.argv[1], 'r') as file:
             storyDictionary = json.load(file)
+        # validate story schema
+        validateStorySchema(storyDictionary)
+
         # run story
         myStory = Story(storyDictionary)
         myStory.run()

@@ -3,6 +3,7 @@
 # An Action's name is a string (that must itself be a valid JSON key) and its options are a collection of key/value pairs that depend on the Action type (a string).
 
 from abc import ABC, abstractmethod
+from .exceptions import ActionError
 
 class Action(ABC):
     """
@@ -28,7 +29,7 @@ class Action(ABC):
     @type.setter
     def type(self, value):
         if not isinstance(value, str):
-            raise ValueError("Action 'type' must be a string.")
+            raise ActionError("Action 'type' must be a string.")
         self._type = value
 
     # NAME getter and setter: only strings
@@ -39,7 +40,7 @@ class Action(ABC):
     @name.setter
     def name(self, value):
         if not isinstance(value, str):
-            raise ValueError("Action 'name' must be a string.")
+            raise ActionError("Action 'name' must be a string.")
         self._name = value
 
     # OPTIONS getter and setter: only dictionaries
@@ -50,7 +51,7 @@ class Action(ABC):
     @options.setter
     def options(self, value):
         if not isinstance(value, dict):
-            raise ValueError("Action 'options' must be a dictionary.")
+            raise ActionError("Action 'options' must be a dictionary.")
         self._options = value
 
     @abstractmethod

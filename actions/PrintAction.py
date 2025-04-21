@@ -4,6 +4,7 @@
 
 from .Action import Action
 from utils import interpolate
+from .exceptions import ActionError
 
 class PrintAction(Action):
     """
@@ -22,7 +23,7 @@ class PrintAction(Action):
     def __init__(self, type, name, options):
         super().__init__(type,name, options)
         if "message" not in options or not isinstance(options["message"], str):
-            raise ValueError("PrintAction requires a 'message' option as a string.")
+            raise ActionError("PrintAction requires a 'message' option as a string.")
 
     def run(self, input_event):
         # get message

@@ -2,6 +2,8 @@
 
 from .PrintAction import PrintAction
 from .HTTPRequestAction import HTTPRequestAction
+from .exceptions import ActionError
+
 
 actionTypeMap = {
     "PrintAction": PrintAction,
@@ -11,4 +13,4 @@ actionTypeMap = {
 def getActionTypeClass(typeString):
     if typeString in actionTypeMap:
         return actionTypeMap[typeString]
-    raise ValueError(f"Unknown action type: {typeString}")
+    raise ActionError(f"Unknown action type: {typeString}")

@@ -28,7 +28,7 @@ class HTTPRequestAction(Action):
     def __init__(self, type, name, options):
         super().__init__(type,name, options)
         if "url" not in options or not isinstance(options["url"], str):
-            raise ValueError("HTTPRequestAction requires a 'url' option as a string.")
+            raise ActionError("HTTPRequestAction requires a 'url' option as a string.")
 
     def run(self, input_event):
         # get url

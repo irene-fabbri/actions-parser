@@ -5,6 +5,8 @@
 # Only requests against URLs that return JSON bodies are supported. The body is parsed and set as the Action's output.
 
 from .Action import Action
+from .exceptions import ActionError
+
 import requests
 
 class HTTPRequestAction(Action):
@@ -36,7 +38,7 @@ class HTTPRequestAction(Action):
             response = requests.get(url, headers={'accept':'application/json'})
             response.raise_for_status()
         except Exception as exception:
-            raise RuntimeError(f"HTTP request failed for action '{self.name}': {exception}")
+            raise ActionError(str(exception), action_type=self.type, action_name=self.name)
         # add the json response to the event
         input_event[self.name] = response.json()
 

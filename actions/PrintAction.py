@@ -3,6 +3,7 @@
 # Actions of this type takes a single option message, the value of which must be a string.
 
 from .Action import Action
+from utils import interpolate
 
 class PrintAction(Action):
     """
@@ -24,5 +25,10 @@ class PrintAction(Action):
             raise ValueError("PrintAction requires a 'message' option as a string.")
 
     def run(self, input_event):
-        # TODO
-        pass
+        # get message
+        message = self.options.get("message", "")
+        # interpolate option value
+        message = interpolate(message,input_event)
+        print(message)
+        input_event[self.name] = message
+        return input_event

@@ -5,6 +5,7 @@
 # Only requests against URLs that return JSON bodies are supported. The body is parsed and set as the Action's output.
 
 from .Action import Action
+import requests
 
 class HTTPRequestAction(Action):
     """
@@ -28,5 +29,15 @@ class HTTPRequestAction(Action):
             raise ValueError("HTTPRequestAction requires a 'url' option as a string.")
 
     def run(self, input_event):
-        # TODO
-        pass
+        # get url
+        url = self.options.get("url", "")
+        try:
+            # make HTTP request
+            response = requests.get(url, headers={'accept':'application/json'})
+            response.raise_for_status()
+        except Exception as exception:
+            raise RuntimeError(f"HTTP request failed for action '{self.name}': {exception}")
+        # add the json response to the event
+        input_event[self.name] = response.json()
+
+        return input_event

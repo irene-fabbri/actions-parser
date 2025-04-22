@@ -1,8 +1,8 @@
 # actions/__init__.py
 
-from .PrintAction import PrintAction
-from .HTTPRequestAction import HTTPRequestAction
-from .exceptions import ActionError
+from actions.PrintAction import PrintAction
+from actions.HTTPRequestAction import HTTPRequestAction
+from actions.exceptions import ActionError
 
 
 actionTypeMap = {

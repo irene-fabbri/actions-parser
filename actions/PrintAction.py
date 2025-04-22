@@ -2,9 +2,9 @@
 
 # Actions of this type takes a single option message, the value of which must be a string.
 
-from .Action import Action
+from actions.Action import Action
 from utils import interpolate
-from .exceptions import ActionError
+from actions.exceptions import ActionError
 
 class PrintAction(Action):
     """

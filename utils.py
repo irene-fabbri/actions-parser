@@ -2,7 +2,7 @@ import re
 import json
 import jsonschema
 from jsonschema import validate
-from .actions.exceptions import ActionError
+from actions.exceptions import ActionError
 
 def interpolate(input, event):
     # need to interpolate {{ key.value }}
@@ -35,3 +35,16 @@ def validateStorySchema(story_dict, schema_path="schemas/story_schema.json"):
         raise ActionError(f"Schema file not found at path: {schema_path}")
     except json.JSONDecodeError as e:
         raise ActionError(f"Failed to parse schema file: {e}")
+    
+def checkArguments(argv):
+        if len(argv) != 2:
+            raise ValueError("Usage: python -m actions_parser <story.json>")
+
+def readStoryFile(filepath):
+    try:
+        with open(filepath, 'r') as file:
+            return json.load(file)
+    except FileNotFoundError:
+        raise FileNotFoundError(f"File '{filepath}' not found.")
+    except json.JSONDecodeError as error:
+        raise json.JSONDecodeError(f"Failed to parse JSON: {error}", error.doc, error.pos)

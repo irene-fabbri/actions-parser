@@ -3,7 +3,7 @@
 # An Action's name is a string (that must itself be a valid JSON key) and its options are a collection of key/value pairs that depend on the Action type (a string).
 
 from abc import ABC, abstractmethod
-from .exceptions import ActionError
+from actions.exceptions import ActionError
 
 class Action(ABC):
     """

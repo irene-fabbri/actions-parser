@@ -4,8 +4,9 @@
 # Any non-2xx HTTP response or network failure while making a HTTP request should result in immediate termination of the program.
 # Only requests against URLs that return JSON bodies are supported. The body is parsed and set as the Action's output.
 
-from .Action import Action
-from .exceptions import ActionError
+from json.decoder import JSONDecodeError
+from actions.Action import Action
+from actions.exceptions import ActionError
 
 import requests
 
@@ -37,9 +38,25 @@ class HTTPRequestAction(Action):
             # make HTTP request
             response = requests.get(url, headers={'accept':'application/json'})
             response.raise_for_status()
+
+            # check for json body
+            print(response.headers)
+            content_type = response.headers.get("Content-Type", "")
+            if "application/json" not in content_type:
+                raise ActionError(f"Expected JSON response but got '{content_type}'", action_type=self.type, action_name=self.name)
+
+            # parse json
+            data = response.json()
+
+        except JSONDecodeError:
+            raise ActionError(
+                f"Response from {url} could not be decoded as JSON.",
+                action_type=self.type,
+                action_name=self.name
+            )
         except Exception as exception:
             raise ActionError(str(exception), action_type=self.type, action_name=self.name)
         # add the json response to the event
-        input_event[self.name] = response.json()
+        input_event[self.name] = data
 
         return input_event

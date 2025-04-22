@@ -1,5 +1,5 @@
-from .actions import getActionTypeClass
-from .actions.exceptions import ActionError
+from actions import getActionTypeClass
+from actions.exceptions import ActionError
 
 # A Story file contains a single JSON object.
 

@@ -2,18 +2,15 @@ import sys
 import json
 from . import Story
 from .actions.exceptions import ActionError
-from .utils import validateStorySchema
+from .utils import validateStorySchema, checkArguments, readStoryFile
 
 if __name__ == "__main__":
     # check arguments
-    if len(sys.argv) != 2:
-        print("Usage: python -m actions_parser <story.json>")
-        sys.exit(1)
-    
+    checkArguments(sys.argv)    
     try:
         # read story from file
-        with open(sys.argv[1], 'r') as file:
-            storyDictionary = json.load(file)
+        storyDictionary = readStoryFile(sys.argv[1])
+
         # validate story schema
         validateStorySchema(storyDictionary)
 
